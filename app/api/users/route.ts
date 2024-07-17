@@ -7,9 +7,9 @@ export async function GET(request: Request) {
   });
 
   const req = {
-    headers: {
-      authorization: request.headers.get("Authorization"),
-    },
+    headers: request.headers,
+    method: request.method,
+    body: request.body,
   };
 
   const token = request.headers.get("Authorization")?.split(" ")[1];
@@ -17,13 +17,8 @@ export async function GET(request: Request) {
   console.log("REQUEST", req);
   console.log("TOKEN", token);
 
-  const res = await clerkClient.authenticateRequest(
-    // @ts-ignore
-    req,
-    {
-      headerToken: request.headers.get("Authorization")?.split(" ")[1],
-    },
-  );
+  // @ts-ignore
+  const res = await clerkClient.authenticateRequest(req);
 
   console.log(res);
 
